@@ -1,10 +1,14 @@
 
 #include "Game.hpp"
 #include <iostream>
-#include "sol/sol.hpp"
 
 Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
+
+   // initialize lua
+   lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::io);
+   lua.script_file("logic.lua");
+
    Uint32 flags{};
    if (fullscreen) {
       flags = SDL_WINDOW_FULLSCREEN;
@@ -52,16 +56,11 @@ void Game::update()
 {
    // call Lua's function update() to increment a counter
    // and print the returned value
-   sol::state lua;
-    lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::io);
-   lua.script_file("logic.lua");
-
    sol::function counter = lua["update"];
 
-   auto counterVal = counter();
+   int counterVal = counter();
 
-   lua.script("print(counterVal)");
-
+   std::cout << counterVal << std::endl;
 
 }
 

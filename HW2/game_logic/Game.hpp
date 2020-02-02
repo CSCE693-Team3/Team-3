@@ -3,6 +3,7 @@
 #define __GAME_HPP__
 
 #include "SDL2/SDL.h"
+#include "sol/sol.hpp"
 
 class Game {
 
@@ -20,6 +21,7 @@ private:
    bool is_running{};
    SDL_Window* window{};
    SDL_Renderer* renderer{};
+   sol::state lua;
 };
 
 #endif
