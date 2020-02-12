@@ -1,6 +1,7 @@
 
 #include "Game.hpp"
 #include <iostream>
+#include <stdexcept>
 
 Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -9,7 +10,7 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
       flags = SDL_WINDOW_FULLSCREEN;
    }
 
-   if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
+   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
       std::cout << "Subsystems initialized..." << std::endl;
       window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
       if (window) {
@@ -21,8 +22,15 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
          std::cout << "Renderer created..." << std::endl;
       }
    is_running = true;
-   } else {
+   } else { // a subsystem failed to initialize; clean up and throw exception
       is_running = false;
+    
+      // destroy SDL renderer/window and quit 
+      SDL_DestroyRenderer(renderer);
+      SDL_DestroyWindow(window);
+      SDL_Quit();
+
+      throw std::runtime_error("Subsystems failed to initialize. Cleaning up and exiting...");
    }
 }
 

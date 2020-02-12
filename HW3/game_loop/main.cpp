@@ -14,7 +14,14 @@ int main() {
 	float delta_time{ 1.0f / frames_per_sec }; // in seconds 60Hz
 
    std::cout << "Creating game" << std::endl;
-   auto game = std::make_unique<Game>("1st Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+
+   std::unique_ptr<Game> game;
+   try { // try to iniitialize game obj
+           game = std::make_unique<Game>("1st Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+   } catch (const std::runtime_error& e) { // if fails, return with error code
+           std::cout << e.what() << std::endl;
+	   return -1;
+   }
 
    std::cout << "Starting game loop" << std::endl;
    while (game->running()) {
