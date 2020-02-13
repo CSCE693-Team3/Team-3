@@ -26,32 +26,32 @@ int main() {
    std::cout << "Starting game loop" << std::endl;
    while (game->running()) {
 
-	   auto stt = std::chrono::high_resolution_clock::now(); //start clock
+	   //start clock
+	   auto stt = std::chrono::high_resolution_clock::now(); 
 
 	   game->handle_events();
 	   game->update();
 	   game->render();
 
-	   auto stp = std::chrono::high_resolution_clock::now(); //end clock
-	   std::chrono::duration<double, std::milli> elapsed_t = stp - stt; //compute duration in miliseconds
+	   //end clock
+	   auto stp = std::chrono::high_resolution_clock::now(); 
 
-	   int time_gap = (delta_time - (elapsed_t.count() * std::chrono::milliseconds::period::num /
-		   std::chrono::milliseconds::period::den)) * 1000; // compute difference miliseconds between 60Hz and elapsed time
+	   //compute duration in miliseconds
+	   std::chrono::duration<double, std::milli> elapsed_t = stp - stt; 
 
-	   /*
-	   std::cout << "time gap is" << time_gap << std::endl;
-	   std::cout << "delta time" << delta_time << std::endl;
-	   std::cout << "elapsed time " << (elapsed_t.count() * std::chrono::milliseconds::period::num /
-	   std::chrono::milliseconds::period::den) << std::endl;//display elapsed time in seconds
-	   */
+
+	   // compute difference miliseconds between delta_time (60 frames per seconds) and elapsed time elapsed_t
+	   //elapsed_t was converted to sec in order to subtract it from delta_time then the result was converted to ms
+	   int time_gap = (delta_time - (elapsed_t.count() * std::chrono::milliseconds::period::num / std::chrono::milliseconds::period::den)) * 1000; 
+	  
+	  
 
 
 	   //If elapsed time is shorter than 60Hz, go to sleep for the reminder
 	   if ((elapsed_t.count() * std::chrono::milliseconds::period::num /
 		   std::chrono::milliseconds::period::den) < delta_time)
 	   {
-		  
-		  // std::cout << "sleeping..." << std::endl;
+		     
 		   std::this_thread::sleep_for(std::chrono::milliseconds(time_gap));
 
 	   }
