@@ -37,3 +37,5 @@ void GameObject::render()
    SDL_RenderCopy(Game::renderer, texture, &src_rect, &dest_rect);
 }
 
+
+

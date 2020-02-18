@@ -14,9 +14,9 @@ SDL_Window* Game::window{};
 std::vector<std::unique_ptr<GameObject>> gamelist;
 
 
-GameObject* tank{};
-GameObject* chopper{};
-GameObject* pacman{};
+//GameObject* tank{};
+//GameObject* chopper{};
+//GameObject* pacman{};
 
 Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -48,18 +48,27 @@ Game::~Game()
    SDL_DestroyWindow(window);
    SDL_Quit();
 
-   delete tank;
-   delete chopper;
-   delete pacman;
+   for (auto& object:gamelist)  {
+      // (object);
+       auto del = object.get_deleter();
+   }
+   //delete tank;
+   //delete chopper;
+   //delete pacman;
 
    std::cout << "Game cleaned..." << std::endl;
 }
 
 void Game::load_level()
 {
-   tank = new GameObject("../assets/images/tank-big-down.png", 0.0f, 0.0f, 0.5f, 0.5f);
-   chopper = new GameObject("../assets/images/chopper-single.png", 50.0f, 50.0f, 0.5f, 0.5f);
-   pacman = new GameObject("../assets/images/pacman/pacman_32x32.png", 100.0f, 100.0f, 0.5f, 0.5f);
+
+   Tank* tank = new Tank("../assets/images/tank-big-down.png", 0.0f, 0.0f, 0.5f, 0.5f);
+   Chopper* chopper = new Chopper("../assets/images/chopper-single.png", 50.0f, 50.0f, 0.5f, 0.5f);
+   Pacman* pacman = new Pacman("../assets/images/pacman/pacman_32x32.png", 100.0f, 100.0f, 0.5f, 0.5f);
+   gamelist.emplace_back(tank);
+   gamelist.emplace_back(chopper);
+   gamelist.emplace_back(pacman);
+
 }
 
 void Game::handle_events()
@@ -78,10 +87,12 @@ void Game::handle_events()
 void Game::update(const float dt)
 {
 	
-	
-	tank->update(dt);
-	chopper->update(dt);
-	pacman->update(dt);
+	for (auto& object: gamelist) {
+	    object->update(dt);
+	}
+	//tank->update(dt);
+	//chopper->update(dt);
+	//pacman->update(dt);
 	
 	
 	
@@ -91,9 +102,12 @@ void Game::update(const float dt)
 void Game::render()
 {
    SDL_RenderClear(renderer);
-   tank->render();
-   chopper->render();
-   pacman->render();
+   for (auto& object: gamelist) {
+       object->render();
+   }
+   //tank->render();
+   //chopper->render();
+   //pacman->render();
    SDL_RenderPresent(renderer);
 }
 
