@@ -1,14 +1,18 @@
 
 #include "Game.hpp"
-
+#include <memory>
 #include <iostream>
 #include "SDL2/SDL_image.h"
-
+#include <vector>
 #include "texture_utils.hpp"
 #include "GameObject.hpp"
 
 SDL_Renderer* Game::renderer{};
 SDL_Window* Game::window{};
+
+//list required for HW4a
+std::vector<std::unique_ptr<GameObject>> gamelist;
+
 
 GameObject* tank{};
 GameObject* chopper{};
@@ -73,9 +77,15 @@ void Game::handle_events()
 
 void Game::update(const float dt)
 {
-   tank->update(dt);
-   chopper->update(dt);
-   pacman->update(dt);
+	
+	
+	tank->update(dt);
+	chopper->update(dt);
+	pacman->update(dt);
+	
+	
+	
+
 }
 
 void Game::render()

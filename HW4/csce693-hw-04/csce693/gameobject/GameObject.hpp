@@ -11,8 +11,8 @@ public:
               const float xvel, const float yvel);
    ~GameObject();
 
-   void update(const float dt);
-   void render();
+   virtual void update(const float dt);
+   virtual void render();
 
 private:
    float xpos{}, ypos{};
