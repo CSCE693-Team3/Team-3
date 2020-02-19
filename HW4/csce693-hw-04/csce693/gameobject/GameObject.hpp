@@ -4,6 +4,8 @@
 
 #include "SDL2/SDL.h"
 
+
+
 //Abstract Class
 class GameObject {
 public:
@@ -12,35 +14,52 @@ public:
 
 
    void update(const float dt);
-   void render();
+
+   //pure virtual method required for abstract class
+   virtual void render()= 0;
 
 private:
    float xpos{}, ypos{};
    float xvel{}, yvel{};
-
+protected:
    SDL_Texture* texture{};
    SDL_Rect src_rect, dest_rect;
 };
-
-class Tank: public GameObject {
-public:
-    Tank(const char* Tank_img, const float xpos, const float ypos,
-         const float xvel, const float yvel) : GameObject(Tank_img, xpos, ypos, xvel, yvel) {}
-    //~Tank();
-
-};
-
-class Chopper: public GameObject {
-public:
-    Chopper(const char* Chopper_img, const float xpos, const float ypos,
-         const float xvel, const float yvel) : GameObject(Chopper_img, xpos, ypos, xvel, yvel) {}
-
-};
-
-class Pacman: public GameObject {
-public:
-    Pacman(const char* Pacman_img, const float xpos, const float ypos,
-            const float xvel, const float yvel) : GameObject(Pacman_img, xpos, ypos, xvel, yvel) {}
-};
 #endif
 
+//class definition for Tank- like a header file
+class Tank : public GameObject {
+public:
+	Tank(const char* Tank_img, const float xpos, const float ypos, const float xvel, const float yvel);
+	~Tank();
+
+
+	void render();
+
+};
+
+//class definition for Pacman- like a header file
+class Pacman : public GameObject {
+public:
+	Pacman(const char* Tank_img, const float xpos, const float ypos,
+		const float xvel, const float yvel);
+	~Pacman();
+
+
+	void render();
+
+};
+
+//class definition for Chopper- like a header file
+class Chopper : public GameObject
+{
+public:
+	Chopper(const char* Tank_img, const float xpos, const float ypos,
+		const float xvel, const float yvel);
+	~Chopper();
+
+
+	void render();
+private:
+
+};

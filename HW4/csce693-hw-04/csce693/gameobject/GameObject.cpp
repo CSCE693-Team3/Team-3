@@ -38,4 +38,54 @@ void GameObject::render()
 }
 
 
+//Class implementation for Tank class
+
+Tank::Tank(const char* Tank_img, const float xpos, const float ypos, const float xvel, const float yvel) : GameObject(Tank_img, xpos, ypos, xvel, yvel)
+{}
+Tank::~Tank() {}
+
+
+void Tank::render()
+{
+	SDL_RenderCopy(Game::renderer, texture, &src_rect, &dest_rect);
+}
+
+
+
+//Class implementation for Pacman class
+Pacman::Pacman(const char* Tank_img, const float xpos, const float ypos,
+	const float xvel, const float yvel) : GameObject(Tank_img, xpos, ypos, xvel, yvel) {}
+Pacman::~Pacman() {}
+
+
+void Pacman::render()
+{
+	SDL_RenderCopy(Game::renderer, texture, &src_rect, &dest_rect);
+}
+
+
+
+//Class implementation for Chopper class
+Chopper::Chopper(const char* Tank_img, const float xpos, const float ypos,
+	const float xvel, const float yvel) : GameObject(Tank_img, xpos, ypos, xvel, yvel) {}
+Chopper::~Chopper() {}
+
+
+void Chopper::render()
+{
+	SDL_RenderCopy(Game::renderer, texture, &src_rect, &dest_rect);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 

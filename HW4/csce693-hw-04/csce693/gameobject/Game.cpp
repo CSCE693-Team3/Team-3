@@ -5,6 +5,7 @@
 #include "SDL2/SDL_image.h"
 #include <vector>
 #include "texture_utils.hpp"
+
 #include "GameObject.hpp"
 
 SDL_Renderer* Game::renderer{};

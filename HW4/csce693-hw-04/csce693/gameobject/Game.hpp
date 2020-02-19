@@ -1,13 +1,16 @@
 
 #ifndef __GAME_HPP__
 #define __GAME_HPP__
-#include "GameObject.hpp"
+//#include "GameObject.hpp"
 #include "SDL2/SDL.h"
 #include <vector>
 #include <memory>
+
+
+
 class Game {
 public:
-   Game(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+   Game(const char* , int , int , int , int , bool );
    ~Game();
 
    void load_level();
