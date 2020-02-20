@@ -51,7 +51,7 @@ Game::~Game()
 
    for (auto& object:gamelist)  {
       // (object);
-       auto del = object.get_deleter();
+       object.reset();
    }
    //delete tank;
    //delete chopper;
