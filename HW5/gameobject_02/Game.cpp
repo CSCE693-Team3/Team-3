@@ -43,7 +43,7 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
    lua.open_libraries(sol::lib::base, sol::lib::package);
 
    //Open the script file, this one being config.lua
-   //INSERT ERROR CATCHING HERE****************
+   //And catch any errors
    try
    {
 	   lua.script_file("config.lua");
@@ -55,7 +55,7 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
 	   this->~Game();
    }
   
-   //INSERT ERROR CATCHING****************
+  
 
    //Read in the gameobjs table, which is a table of key-value pairs, and the value
    //is another table of values
@@ -85,12 +85,6 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
             //Add the player config that was read in, to the playerConfig unordered_map
             playerConfig.emplace(playerName, std::make_tuple(kind, xpos, ypos, xvel, yvel));
 
-            //Purely for debug, REMOVE
-            std::cout << "kind : " << static_cast<std::string>(nested["kind"]) << std::endl;
-            std::cout << "xpos : " << static_cast<float>(nested["xpos"]) << std::endl;
-            std::cout << "ypos : " << static_cast<float>(nested["ypos"]) << std::endl;
-            std::cout << "xvel : " << static_cast<float>(nested["xvel"]) << std::endl;
-            std::cout << "yvel : " << static_cast<float>(nested["yvel"]) << std::endl;
          break;
          }
          default:
