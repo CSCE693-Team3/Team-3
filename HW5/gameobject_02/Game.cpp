@@ -116,15 +116,15 @@ void Game::load_level()
       //Now compare to the 3 types of game objects, and create the objects using the saved config
       //And emplace them into the game_objs vector
       if(kind == "chopper") {
-         auto chopper = std::make_unique<Chopper>("../assets/images/chopper-single.png", std::get<1>(players.second), std::get<2>(players.second), std::get<3>(players.second), std::get<4>(players.second));
+         auto chopper = std::make_unique<Chopper>(std::get<1>(players.second), std::get<2>(players.second), std::get<3>(players.second), std::get<4>(players.second));
          game_objs.emplace_back(std::move(chopper));
       }
       if(kind == "tank") {
-         auto tank = std::make_unique<Tank>("../assets/images/tank-big-down.png", std::get<1>(players.second), std::get<2>(players.second), std::get<3>(players.second), std::get<4>(players.second));
+         auto tank = std::make_unique<Tank>(std::get<1>(players.second), std::get<2>(players.second), std::get<3>(players.second), std::get<4>(players.second));
          game_objs.emplace_back(std::move(tank));
       }
       if(kind == "pacman") {
-         auto pacman = std::make_unique<Pacman>("../assets/images/pacman/pacman_32x32.png", std::get<1>(players.second), std::get<2>(players.second), std::get<3>(players.second), std::get<4>(players.second));
+         auto pacman = std::make_unique<Pacman>(std::get<1>(players.second), std::get<2>(players.second), std::get<3>(players.second), std::get<4>(players.second));
          game_objs.emplace_back(std::move(pacman));
       }
    }
