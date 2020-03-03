@@ -8,7 +8,7 @@
 #include "gameobjects/Chopper.hpp"
 #include "gameobjects/Tank.hpp"
 #include "gameobjects/Pacman.hpp"
-
+#include <stdexcept>
 
 SDL_Renderer* Game::renderer{};
 SDL_Window* Game::window{};
@@ -44,7 +44,17 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
 
    //Open the script file, this one being config.lua
    //INSERT ERROR CATCHING HERE****************
-   lua.script_file("config.lua");
+   try
+   {
+	   lua.script_file("config.lua");
+	   
+   }
+   catch (int e)
+   {
+	   throw std::out_of_range{ "Cannot open config file"};
+	   this->~Game();
+   }
+  
    //INSERT ERROR CATCHING****************
 
    //Read in the gameobjs table, which is a table of key-value pairs, and the value
