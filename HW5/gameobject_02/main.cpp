@@ -6,10 +6,10 @@
 #include <iostream>
 #include <memory>
 #include <cmath>
+#include <sol/sol.hpp>
 
 int main() {
 	try {
-
 		std::cout << "Creating game" << std::endl;
 
 		auto game = std::make_unique<Game>("1st Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
@@ -31,7 +31,7 @@ int main() {
 			}
 		}
 	}
-	catch (std::out_of_range & err)
+	catch (sol::error &err) // catch sol error 
 	{
 		std::cerr << "error opening file: " << err.what() << std::endl;
 		

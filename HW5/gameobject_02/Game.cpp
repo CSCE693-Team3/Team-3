@@ -12,9 +12,6 @@
 
 SDL_Renderer* Game::renderer{};
 SDL_Window* Game::window{};
-//variable for sol state
-sol::state lua;
-
 
 Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -43,23 +40,13 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
    lua.open_libraries(sol::lib::base, sol::lib::package);
 
    //Open the script file, this one being config.lua
-   //And catch any errors
-   try
-   {
-	   lua.script_file("config.lua");
-	   
-   }
-   catch (int e)
-   {
-	   throw std::out_of_range{ "Cannot open config file"};
-	   this->~Game();
-   }
+   lua.script_file("config.lua");
   
-  
-
    //Read in the gameobjs table, which is a table of key-value pairs, and the value
    //is another table of values
+   std::cout << "Here " << std::endl;
    sol::table gameobj = lua["gameobjs"];
+   std::cout << "Me too!" << std::endl;
 
    //Iterate over each key (the gameobjec["players"])
    for (const auto& key_value_pair : gameobj) {
