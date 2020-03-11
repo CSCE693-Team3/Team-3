@@ -9,7 +9,7 @@
 #include <memory>
 #include <unordered_map>
 #include <tuple>
-
+#include <sol/sol.hpp>
 
 class Game
 {
@@ -34,6 +34,7 @@ private:
    std::vector<std::unique_ptr<GameObject>> game_objs;
    //storage for reading in config.lua file
    std::unordered_map<std::string, std::tuple<std::string, float, float, float, float>> playerConfig;
+   sol::state lua; // variable for sol state
 };
 
 #endif

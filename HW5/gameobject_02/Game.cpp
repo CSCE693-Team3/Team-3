@@ -12,9 +12,6 @@
 
 SDL_Renderer* Game::renderer{};
 SDL_Window* Game::window{};
-//variable for sol state
-sol::state lua;
-
 
 Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -43,23 +40,13 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
    lua.open_libraries(sol::lib::base, sol::lib::package);
 
    //Open the script file, this one being config.lua
-   //INSERT ERROR CATCHING HERE****************
-   try
-   {
-	   lua.script_file("config.lua");
-	   
-   }
-   catch (int e)
-   {
-	   throw std::out_of_range{ "Cannot open config file"};
-	   this->~Game();
-   }
+   lua.script_file("config.lua");
   
-   //INSERT ERROR CATCHING****************
-
    //Read in the gameobjs table, which is a table of key-value pairs, and the value
    //is another table of values
+   std::cout << "Here " << std::endl;
    sol::table gameobj = lua["gameobjs"];
+   std::cout << "Me too!" << std::endl;
 
    //Iterate over each key (the gameobjec["players"])
    for (const auto& key_value_pair : gameobj) {
@@ -85,12 +72,6 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
             //Add the player config that was read in, to the playerConfig unordered_map
             playerConfig.emplace(playerName, std::make_tuple(kind, xpos, ypos, xvel, yvel));
 
-            //Purely for debug, REMOVE
-            std::cout << "kind : " << static_cast<std::string>(nested["kind"]) << std::endl;
-            std::cout << "xpos : " << static_cast<float>(nested["xpos"]) << std::endl;
-            std::cout << "ypos : " << static_cast<float>(nested["ypos"]) << std::endl;
-            std::cout << "xvel : " << static_cast<float>(nested["xvel"]) << std::endl;
-            std::cout << "yvel : " << static_cast<float>(nested["yvel"]) << std::endl;
          break;
          }
          default:
