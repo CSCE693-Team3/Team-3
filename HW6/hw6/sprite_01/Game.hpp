@@ -3,6 +3,7 @@
 #define __Game_HPP__
 
 #include "SDL2/SDL.h"
+#include <sol/sol.hpp>
 
 class AssetManager;
 
@@ -27,6 +28,7 @@ private:
    int counter{};
    bool is_running{};
    SDL_Window* window{};
+   sol::state lua; // variable for sol state
 };
 
 #endif
