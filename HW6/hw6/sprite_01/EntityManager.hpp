@@ -16,6 +16,9 @@ public:
    void render();
    bool has_no_entities() const;
 
+   void initialize();
+
+
    Entity& add_entity(const std::string name);
    std::vector<Entity*> get_entities() const;
 

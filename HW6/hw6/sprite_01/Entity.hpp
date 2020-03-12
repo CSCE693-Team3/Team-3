@@ -16,6 +16,7 @@ public:
    Entity(EntityManager& manager, std::string name);
    void update(const float dt);
    void render();
+   void initialize();
    void destroy();
    bool is_active() const   { return active; };
 
@@ -25,7 +26,6 @@ public:
       component->owner = this;
       components.emplace_back(component);
       component_type_map[&typeid(*component)] = component;
-      component->initialize();
       return *component;
    }
 
