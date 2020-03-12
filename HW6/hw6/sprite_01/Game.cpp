@@ -83,42 +83,39 @@ void Game::render()
 void Game::load_level(const int number)
 {
 
-
     //Open the script file, this one being config.lua
     lua.script_file("config.lua");
 
+    //Add entries for each table property saved in config.lua
     sol::table entities = lua["entities"];
     sol::table assets = lua ["assets"];
-    //Iterate over each key (the entities)
+
+    //First, get the assets from the asset table
     for (const auto& key_value_pair : assets) {
         sol::object k = key_value_pair.first;
         sol::object v = key_value_pair.second;
-
         sol::type t = k.get_type();
 
         switch(t) {
             case sol::type::string: {
 
-                //Get the player's name from the key value that the iterator is on
+                //Get the asset name, which is the key
                 std::string assetID = k.as<std::string>();
                 auto assetLoc = v.as<std::string>();
+                //Cast from a string to a char, since asset_manager expects a filename of char
                 const char* assetLocChar(assetLoc.c_str());
-                std::cout << "assetLoc: " << assetLoc << std::endl;
+
+                //Load the asset using the asset_manager
                 asset_manager->add_texture(assetID, assetLocChar);
-
-                //DEBUG STATEMENTS REMOVE
-                std::cout << "assetID: " << assetID << std::endl;
-                std::cout << "assetLoc: " << assetLoc << std::endl;
-
                 break;
             }
             default:
-                std::cout << "Unkown type... no players loaded." << std::endl;
+                std::cout << "Unkown type... no assets loaded." << std::endl;
                 break;
         }
-
-
     }
+
+    //Now load in the entities from the entities table in config.lua
     for (const auto& key_value_pair : entities) {
         sol::object k = key_value_pair.first;
         sol::object v = key_value_pair.second;
@@ -127,18 +124,16 @@ void Game::load_level(const int number)
 
         switch(t) {
             case sol::type::table: {
-                //First get the value for each player, these are tables (nested in the table of "gameobjs")
+
+                //First get table for the type of entity (such as a tank or chopper)
                 sol::table nested = key_value_pair.second;
+                //Use the first table, to now access the transform and sprite tables
                 sol::table transform = nested["transform"];
                 sol::table sprite = nested["sprite"];
-                //Get the player's name from the key value that the iterator is on
-
                 std::string entityName = k.as<std::string>();
 
-
-                //Now get the different variables from the nested table for each player,
-                //which is the kind (chopper, tank, etc), positions, and velocities
-                //std::string entity = static_cast<std::string>(nested["transform"]);
+                //Now get the different variables from the nested table for the transform
+                //which is the positions, velocities, width, height, and scale
                 float xpos = static_cast<float>(transform["position_x"]);
                 float ypos = static_cast<float>(transform["position_y"]);
                 float xvel = static_cast<float>(transform["velocity_x"]);
@@ -147,48 +142,20 @@ void Game::load_level(const int number)
                 float height = static_cast<float>(transform["height"]);
                 float scale = static_cast<float>(transform["scale"]);
 
+                //This grabs the sprite ID from the sprite table
                 std::string spriteType = static_cast<std::string>(sprite["texture_id"]);
 
-                //DEBUG STATEMENTS REMOVE
-                std::cout << "xpos: " << xpos << std::endl;
-                std::cout << "ypos: " << ypos << std::endl;
-                std::cout << "xvel: " << xvel << std::endl;
-                std::cout << "yvel: " << yvel << std::endl;
-                std::cout << "width: " << width << std::endl;
-                std::cout << "height: " << height << std::endl;
-                std::cout << "scale: " << scale << std::endl;
-                std::cout << "spriteID " << spriteType << std::endl;
-                //Add the player config that was read in, to the playerConfig unordered_map
-                //playerConfig.emplace(playerName, std::make_tuple(kind, xpos, ypos, xvel, yvel));
-
-                
                 //Now we can create the entities with the entity manager
                 Entity& entity(entity_mgr.add_entity(entityName));
                 entity.add_component<TransformComponent>(xpos,ypos,xvel,yvel,width,height,scale);
                 entity.add_component<SpriteComponent>(spriteType);
-
                 break;
             }
             default:
                 std::cout << "Unkown type... no players loaded." << std::endl;
                 break;
         }
-
-
     }
-   // add assets to asset manager
-
-   //asset_manager->add_texture("tank-image", "../assets/images/tank-big-right.png");
-   //asset_manager->add_texture("chopper-image", "../assets/images/chopper-spritesheet.png");
-
-   // create entities and add components to them
-   //Entity& tank_entity(entity_mgr.add_entity("tank"));
-   //tank_entity.add_component<TransformComponent>(0,0,20,20,32,32,1);
-   //tank_entity.add_component<SpriteComponent>("tank-image");
-
-   //Entity& chopper_entity(entity_mgr.add_entity("chopper"));
-   //chopper_entity.add_component<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
-   //chopper_entity.add_component<SpriteComponent>("chopper-image");
 
    entity_mgr.list_all_entities();
 }
