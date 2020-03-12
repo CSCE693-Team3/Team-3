@@ -10,6 +10,14 @@ void EntityManager::clear_data()
    }
 }
 
+
+void EntityManager::initialize() {
+   for (auto & entity: entities) {
+      entity->initialize();
+   }
+}
+
+
 bool EntityManager::has_no_entities() const
 {
    return entities.size() == 0;

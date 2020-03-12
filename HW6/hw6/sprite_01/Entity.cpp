@@ -28,6 +28,12 @@ void Entity::render()
    }
 }
 
+void Entity::initialize() {
+   for (auto& component: components) {
+      component->initialize();
+   }
+}
+
 void Entity::destroy()
 {
    active = false;

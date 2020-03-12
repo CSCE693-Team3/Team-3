@@ -41,6 +41,10 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
    load_level(1);
 }
 
+void Game::initialize() {
+   entity_mgr.initialize();
+}
+
 Game::~Game()
 {
    SDL_DestroyRenderer(renderer);
