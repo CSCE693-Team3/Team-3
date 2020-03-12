@@ -44,6 +44,7 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
 }
 
 void Game::initialize() {
+   // call entity manager initialize
    entity_mgr.initialize();
 }
 

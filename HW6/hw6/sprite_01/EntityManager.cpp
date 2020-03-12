@@ -12,6 +12,7 @@ void EntityManager::clear_data()
 
 
 void EntityManager::initialize() {
+   // for each entity, initialize
    for (auto & entity: entities) {
       entity->initialize();
    }

@@ -29,6 +29,7 @@ void Entity::render()
 }
 
 void Entity::initialize() {
+   // for each component, initialize
    for (auto& component: components) {
       component->initialize();
    }
